@@ -61,7 +61,12 @@ def download_url(url, dest=None, message="Downloading Nightly from:"):
     return dest
 
 def urlLinks(url):
-    r = urllib2.urlopen(url)
+    try:
+        r = urllib2.urlopen(url)
+    except urllib2.URLError as e:
+        print "Couldn't get links from", url 
+        print e
+        sys.exit(0)
     content = r.read()
     if r.getcode() != 200:
         return []
